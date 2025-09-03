@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
 export async function createWorkflowAction(formData: FormData) {
-  const { userId } = auth();
+  const { userId, orgId } = auth();
 
   if (!userId) {
     throw new Error("인증이 필요합니다.");
@@ -28,7 +28,7 @@ export async function createWorkflowAction(formData: FormData) {
 
   const result = await createNewWorkflow({
     user_id: userId,
-    org_id: null, // Clerk에서 org 정보가 필요한 경우 추가 구현 필요
+    org_id: orgId,
     workflow_name: workflowName,
     workflowData: {
       workflow: parsedWorkflow,
