@@ -109,6 +109,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.5.2",
     "@types/node": "^20",
+    "@types/pg": "^8.15.5",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
