@@ -24,7 +24,10 @@ export default authMiddleware({
       // pathname.startsWith("/edit")
     ) {
       const url = new URL(req.url);
-      return redirectToSignIn({ returnBackUrl: url.origin });
+      // 외부 도메인 또는 현재 호스트 사용
+      const returnUrl =
+        process.env.NEXT_PUBLIC_APP_URL || `${url.protocol}//${url.host}`;
+      return redirectToSignIn({ returnBackUrl: returnUrl + pathname });
     }
   },
 });
