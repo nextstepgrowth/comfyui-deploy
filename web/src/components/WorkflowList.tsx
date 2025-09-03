@@ -39,6 +39,7 @@ import {
 } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import * as React from "react";
+import { CreateWorkflowButton } from "./CreateWorkflowButton";
 
 export type WorkflowItemList = NonNullable<
   Awaited<ReturnType<typeof getAllUserWorkflow>>
@@ -169,7 +170,7 @@ export const columns: ColumnDef<WorkflowItemList>[] = [
 export function WorkflowList({ data }: { data: WorkflowItemList[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
+    []
   );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -196,7 +197,7 @@ export function WorkflowList({ data }: { data: WorkflowItemList[] }) {
 
   return (
     <div className="grid grid-rows-[auto,1fr,auto] h-full">
-      <div className="flex flex-row w-full items-center py-4">
+      <div className="flex flex-row w-full items-center justify-between py-4">
         <Input
           placeholder="Filter workflows..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -205,6 +206,7 @@ export function WorkflowList({ data }: { data: WorkflowItemList[] }) {
           }
           className="max-w-sm"
         />
+        <CreateWorkflowButton />
       </div>
       <ScrollArea className="h-full w-full rounded-md border">
         <Table>
@@ -218,7 +220,7 @@ export function WorkflowList({ data }: { data: WorkflowItemList[] }) {
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext(),
+                            header.getContext()
                           )}
                     </TableHead>
                   );
@@ -237,7 +239,7 @@ export function WorkflowList({ data }: { data: WorkflowItemList[] }) {
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext(),
+                        cell.getContext()
                       )}
                     </TableCell>
                   ))}
