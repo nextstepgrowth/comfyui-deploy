@@ -190,8 +190,9 @@ export const createRun = withServerPromise(
             ...shareData,
             prompt_id: prompt_id,
           };
-          //   console.log(body);
           const comfyui_endpoint = `${machine.endpoint}/run`;
+          console.log("comfyui_endpoint", comfyui_endpoint);
+          console.log("body", body);
           const _result = await fetch(comfyui_endpoint, {
             method: "POST",
             body: JSON.stringify(body),
