@@ -38,7 +38,7 @@ export const createRun = withServerPromise(
         ? await db.query.machinesTable.findFirst({
             where: and(
               eq(machinesTable.id, machine_id),
-              eq(machinesTable.disabled, false),
+              eq(machinesTable.disabled, false)
             ),
           })
         : machine_id;
@@ -95,7 +95,6 @@ export const createRun = withServerPromise(
               node.inputs["default_value"] = inputs[key];
             }
           }
-
         });
       }
     }
@@ -148,7 +147,7 @@ export const createRun = withServerPromise(
             throw new Error(
               `Error creating run, ${
                 ___result.statusText
-              } ${await ___result.text()}`,
+              } ${await ___result.text()}`
             );
           console.log(_data, ___result);
           break;
@@ -182,7 +181,7 @@ export const createRun = withServerPromise(
             throw new Error(
               `Error creating run, ${
                 __result.statusText
-              } ${await __result.text()}`,
+              } ${await __result.text()}`
             );
           console.log(data, __result);
           break;
@@ -191,8 +190,8 @@ export const createRun = withServerPromise(
             ...shareData,
             prompt_id: prompt_id,
           };
-          // console.log(body);
-          const comfyui_endpoint = `${machine.endpoint}/comfyui-deploy/run`;
+          //   console.log(body);
+          const comfyui_endpoint = `${machine.endpoint}/run`;
           const _result = await fetch(comfyui_endpoint, {
             method: "POST",
             body: JSON.stringify(body),
@@ -204,7 +203,7 @@ export const createRun = withServerPromise(
             let message = `Error creating run, ${_result.statusText}`;
             try {
               const result = await ComfyAPI_Run.parseAsync(
-                await _result.json(),
+                await _result.json()
               );
               message += ` ${result.node_errors}`;
             } catch (error) {}
@@ -237,7 +236,7 @@ export const createRun = withServerPromise(
       workflow_run_id: workflow_run[0].id,
       message: "Successful workflow run",
     };
-  },
+  }
 );
 
 export async function checkStatus(run_id: string) {
