@@ -123,6 +123,9 @@ export const createRun = withServerPromise(
 
     revalidatePath(`/${workflow_version_data.workflow_id}`);
 
+    console.log("machine", machine);
+    console.log("machine.type", machine.type);
+
     try {
       switch (machine.type) {
         case "comfy-deploy-serverless":
