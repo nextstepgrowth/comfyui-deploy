@@ -123,9 +123,6 @@ export const createRun = withServerPromise(
 
     revalidatePath(`/${workflow_version_data.workflow_id}`);
 
-    console.log("machine", machine);
-    console.log("machine.type", machine.type);
-
     try {
       switch (machine.type) {
         case "comfy-deploy-serverless":
@@ -193,9 +190,8 @@ export const createRun = withServerPromise(
             ...shareData,
             prompt_id: prompt_id,
           };
-          const comfyui_endpoint = `${machine.endpoint}/run`;
-          console.log("comfyui_endpoint", comfyui_endpoint);
-          console.log("body", body);
+          // console.log(body);
+          const comfyui_endpoint = `${machine.endpoint}/comfyui-deploy/run`;
           const _result = await fetch(comfyui_endpoint, {
             method: "POST",
             body: JSON.stringify(body),
