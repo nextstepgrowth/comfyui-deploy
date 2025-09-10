@@ -33,7 +33,6 @@ export const createRun = withServerPromise(
     runOrigin?: WorkflowRunOriginType;
     apiUser?: APIKeyUserType;
   }) => {
-    console.log("진입은 하니?");
     const machine =
       typeof machine_id === "string"
         ? await db.query.machinesTable.findFirst({
@@ -111,8 +110,7 @@ export const createRun = withServerPromise(
 
     let prompt_id: string | undefined = undefined;
     const shareData = {
-      workflow_api_raw: workflow_api,
-      workflow_api: workflow_api,
+      ...workflow_version_data.workflow,
       status_endpoint: `${origin}/api/update-run`,
       file_upload_endpoint: `${origin}/api/file-upload`,
       inputs,
