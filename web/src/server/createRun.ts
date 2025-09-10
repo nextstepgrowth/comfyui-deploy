@@ -33,6 +33,7 @@ export const createRun = withServerPromise(
     runOrigin?: WorkflowRunOriginType;
     apiUser?: APIKeyUserType;
   }) => {
+    console.log("진입은 하니?");
     const machine =
       typeof machine_id === "string"
         ? await db.query.machinesTable.findFirst({
