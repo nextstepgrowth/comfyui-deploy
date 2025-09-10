@@ -77,24 +77,27 @@ export const registerCreateRunRoute = (app: App) => {
         },
       });
 
-      throw new Error("test");
+      if (deploymentData) {
+        console.log("deploymentData", deploymentData);
+        throw new Error("test");
+      }
 
       if (!deploymentData) throw new Error("Deployment not found");
 
-      const run_id = await createRun({
-        origin,
-        workflow_version_id: deploymentData.version,
-        machine_id: deploymentData.machine,
-        inputs,
-        runOrigin: "api",
-        apiUser: apiKeyTokenData,
-      });
+      //   const run_id = await createRun({
+      //     origin,
+      //     workflow_version_id: deploymentData.version,
+      //     machine_id: deploymentData.machine,
+      //     inputs,
+      //     runOrigin: "api",
+      //     apiUser: apiKeyTokenData,
+      //   });
 
-      if ("error" in run_id) throw new Error(run_id.error);
+      //   if ("error" in run_id) throw new Error(run_id.error);
 
-      return c.json({
-        run_id: "workflow_run_id" in run_id ? run_id.workflow_run_id : "",
-      });
+      //   return c.json({
+      //     run_id: "workflow_run_id" in run_id ? run_id.workflow_run_id : "",
+      //   });
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error";
