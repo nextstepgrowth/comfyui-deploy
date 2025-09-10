@@ -90,6 +90,7 @@ export const createRun = withServerPromise(
     const workflow_api = workflow_version_data.workflow_api;
 
     console.log("1");
+    console.log(inputs);
 
     // Replace the inputs
     if (inputs && workflow_api) {
