@@ -214,7 +214,7 @@ export const createRun = withServerPromise(
             body: JSON.stringify(body),
             cache: "no-store",
           });
-          // console.log(_result);
+          console.log(comfyui_endpoint);
 
           if (!_result.ok) {
             let message = `Error creating run, ${_result.statusText}`;
