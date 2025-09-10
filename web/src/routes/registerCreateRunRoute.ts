@@ -51,8 +51,9 @@ const createRunRoute = createRoute({
 export const registerCreateRunRoute = (app: App) => {
   app.openapi(createRunRoute, async (c) => {
     const data = c.req.valid("json");
-    const proto = c.req.headers.get('x-forwarded-proto')  || "http";
-    const host = c.req.headers.get('x-forwarded-host') || c.req.headers.get('host');
+    const proto = c.req.headers.get("x-forwarded-proto") || "http";
+    const host =
+      c.req.headers.get("x-forwarded-host") || c.req.headers.get("host");
     const origin = `${proto}://${host}` || new URL(c.req.url).origin;
     const apiKeyTokenData = c.get("apiKeyTokenData")!;
 
@@ -75,6 +76,8 @@ export const registerCreateRunRoute = (app: App) => {
           },
         },
       });
+
+      throw new Error("test");
 
       if (!deploymentData) throw new Error("Deployment not found");
 
@@ -101,7 +104,7 @@ export const registerCreateRunRoute = (app: App) => {
         },
         {
           status: 500,
-        },
+        }
       );
     }
   });
