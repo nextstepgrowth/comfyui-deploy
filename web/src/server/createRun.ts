@@ -93,19 +93,19 @@ export const createRun = withServerPromise(
     console.log(inputs);
 
     // Replace the inputs
-    if (inputs && workflow_api) {
-      for (const key in inputs) {
-        Object.entries(workflow_api).forEach(([_, node]) => {
-          if (node.inputs["input_id"] === key) {
-            node.inputs["input_id"] = inputs[key];
-            // Fix for external text default value
-            if (node.class_type == "ComfyUIDeployExternalText") {
-              node.inputs["default_value"] = inputs[key];
-            }
-          }
-        });
-      }
-    }
+    // if (inputs && workflow_api) {
+    //   for (const key in inputs) {
+    //     Object.entries(workflow_api).forEach(([_, node]) => {
+    //       if (node.inputs["input_id"] === key) {
+    //         node.inputs["input_id"] = inputs[key];
+    //         // Fix for external text default value
+    //         if (node.class_type == "ComfyUIDeployExternalText") {
+    //           node.inputs["default_value"] = inputs[key];
+    //         }
+    //       }
+    //     });
+    //   }
+    // }
 
     console.log("2");
 
