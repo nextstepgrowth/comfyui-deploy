@@ -114,6 +114,7 @@ export const createRun = withServerPromise(
       workflow_api_raw: workflow_api,
       status_endpoint: `${origin}/api/update-run`,
       file_upload_endpoint: `${origin}/api/file-upload`,
+      inputs,
     };
 
     prompt_id = v4();
