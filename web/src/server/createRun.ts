@@ -213,7 +213,7 @@ export const createRun = withServerPromise(
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${machine.auth_token}`,
+              Authorization: `Bearer ${machine.auth_token || ""}`,
             },
             body: JSON.stringify(body),
             cache: "no-store",
