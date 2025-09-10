@@ -100,6 +100,7 @@ export const registerCreateRunRoute = (app: App) => {
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error";
+      console.log("error", errorMessage);
       return c.json(
         {
           error: errorMessage,
