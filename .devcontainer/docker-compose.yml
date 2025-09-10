@@ -1,8 +1,8 @@
-version: '3'
+version: "3"
 
 services:
   app:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
 
@@ -11,21 +11,21 @@ services:
 
     volumes:
       # Forwards the local Docker socket to the container.
-      - /var/run/docker.sock:/var/run/docker-host.sock 
+      - /var/run/docker.sock:/var/run/docker-host.sock
       # Update this to wherever you want VS Code to mount the folder of your project
       - ../..:/workspaces:cached
 
     # Overrides default command so things don't shut down after the process ends.
     # entrypoint: /usr/local/share/docker-init.sh
-    command: sleep infinity 
+    command: sleep infinity
   postgres:
-      image: "postgres:15.2-alpine"
-      environment:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
-        POSTGRES_DB: verceldb
-      ports:
-        - "5480:5432"
+    image: "postgres:15.2-alpine"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: verceldb
+    ports:
+      - "5480:5432"
   pg_proxy:
     image: ghcr.io/neondatabase/wsproxy:latest
     environment:
@@ -36,13 +36,12 @@ services:
       - "5481:80"
     depends_on:
       - postgres
-  localstack:
-    image: localstack/localstack:latest
-    environment:
-      SERVICES: s3
-    ports:
-      - 4566:4566
-    volumes:
-      - ../web/aws:/etc/localstack/init/ready.d
-      - ../web/aws:/app/web/aws
-  
+  # localstack:
+  #   image: localstack/localstack:latest
+  #   environment:
+  #     SERVICES: s3
+  #   ports:
+  #     - 4566:4566
+  #   volumes:
+  #     - ../web/aws:/etc/localstack/init/ready.d
+  #     - ../web/aws:/app/web/aws

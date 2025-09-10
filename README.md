@@ -78,13 +78,23 @@ Major areas
 1. `git clone https://github.com/BennyKok/comfyui-deploy`
 2. `cd web`
 3. `bun i`
-4. Start docker
+4. Start docker for PostgreSQL: `docker compose up postgres pg_proxy -d`
 5. `cp .env.example .env.local`
 6. Replace `JWT_SECRET` with `openssl rand -hex 32`
 7. Get a local clerk dev key for `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY`
-8. Keep a terminal live for `bun run db-dev`
-9. Execute the local migration to create the initial data `bun run migrate-local`
-10. Finally start the next server with `bun dev`
+8. Configure NCP Object Storage environment variables (see Env key setup section below)
+9. Keep a terminal live for `bun run db-dev`
+10. Execute the local migration to create the initial data `bun run migrate-local`
+11. Finally start the next server with `bun dev`
+
+**Note**: LocalStack is no longer used. Configure NCP Object Storage for file storage.
+
+## NCP Object Storage Setup
+
+1. Create a bucket in [NCP Console](https://console.ncloud.com/)
+2. Create IAM credentials with Object Storage access
+3. Configure CORS settings for your bucket if needed
+4. Set the environment variables as shown in the Env key setup section
 
 **Schema Changes**
 
@@ -118,26 +128,37 @@ POSTGRES_URL=
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
 CLERK_SECRET_KEY=
 
-SPACES_ENDPOINT="http://localhost:4566"
-SPACES_ENDPOINT_CDN="http://localhost:4566"
-SPACES_BUCKET="comfyui-deploy"
-SPACES_KEY="xyz"
-SPACES_SECRET="aaa"
+# NCP Object Storage settings (recommended)
+SPACES_ENDPOINT="ENDPOINT"
+SPACES_ENDPOINT_CDN="CDN"
+SPACES_BUCKET="your-bucket-name"
+SPACES_KEY="KEY"
+SPACES_SECRET="SECRET"
+SPACES_REGION="REGION"
+SPACES_CDN_FORCE_PATH_STYLE="true"
+SPACES_CDN_DONT_INCLUDE_BUCKET="false"
+
+# LocalStack settings (for local development - commented out)
+# SPACES_ENDPOINT="http://localhost:4566"
+# SPACES_ENDPOINT_CDN="http://localhost:4566"
+# SPACES_BUCKET="comfyui-deploy"
+# SPACES_KEY="xyz"
+# SPACES_SECRET="aaa"
 
 # generate using -> openssl rand -hex 32
 JWT_SECRET=
 
 # r2 settings
-SPACES_REGION="auto"
-SPACES_CDN_FORCE_PATH_STYLE="true"
-SPACES_CDN_DONT_INCLUDE_BUCKET="true"
+# SPACES_REGION="auto"
+# SPACES_CDN_FORCE_PATH_STYLE="true"
+# SPACES_CDN_DONT_INCLUDE_BUCKET="true"
 
 # digital ocean settings
-SPACES_REGION="nyc3"
-SPACES_CDN_FORCE_PATH_STYLE="false"
+# SPACES_REGION="nyc3"
+# SPACES_CDN_FORCE_PATH_STYLE="false"
 
 # s3 settings
-SPACES_REGION="nyc3"
-SPACES_CDN_DONT_INCLUDE_BUCKET="false"
-SPACES_CDN_FORCE_PATH_STYLE="true"
+# SPACES_REGION="nyc3"
+# SPACES_CDN_DONT_INCLUDE_BUCKET="false"
+# SPACES_CDN_FORCE_PATH_STYLE="true"
 ```
