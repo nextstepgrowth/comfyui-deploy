@@ -90,6 +90,8 @@ export const registerCreateRunRoute = (app: App) => {
 
       if ("error" in run_id) throw new Error(run_id.error);
 
+      console.log(run_id);
+
       return c.json({
         run_id: "workflow_run_id" in run_id ? run_id.workflow_run_id : "",
       });
