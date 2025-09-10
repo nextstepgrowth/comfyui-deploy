@@ -205,7 +205,7 @@ export const createRun = withServerPromise(
           break;
         case "classic":
           const body = {
-            ...shareata,
+            ...shareData,
             prompt_id: prompt_id,
           };
           console.log("here!!!!!!!!!!!!!!!!!!!!!1");
