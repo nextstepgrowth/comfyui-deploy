@@ -89,6 +89,8 @@ export const createRun = withServerPromise(
 
     const workflow_api = workflow_version_data.workflow_api;
 
+    console.log("1");
+
     // Replace the inputs
     if (inputs && workflow_api) {
       for (const key in inputs) {
@@ -104,6 +106,8 @@ export const createRun = withServerPromise(
       }
     }
 
+    console.log("2");
+
     let prompt_id: string | undefined = undefined;
     const shareData = {
       workflow_api_raw: workflow_api,
@@ -112,6 +116,8 @@ export const createRun = withServerPromise(
     };
 
     prompt_id = v4();
+
+    console.log("3");
 
     // Add to our db
     const workflow_run = await db
@@ -126,7 +132,11 @@ export const createRun = withServerPromise(
       })
       .returning();
 
+    console.log("4");
+
     revalidatePath(`/${workflow_version_data.workflow_id}`);
+
+    console.log("5");
 
     try {
       switch (machine.type) {
