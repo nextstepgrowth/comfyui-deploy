@@ -44,6 +44,7 @@ export const createRun = withServerPromise(
         : machine_id;
 
     if (!machine) {
+      console.log("machine not found");
       throw new Error("Machine not found");
     }
 
@@ -63,6 +64,7 @@ export const createRun = withServerPromise(
         : workflow_version_id;
 
     if (!workflow_version_data) {
+      console.log("workflow version not found");
       throw new Error("Workflow version not found");
     }
 
@@ -70,6 +72,7 @@ export const createRun = withServerPromise(
       if (apiUser.org_id) {
         // is org api call, check org only
         if (apiUser.org_id != workflow_version_data.workflow.org_id) {
+          console.log("workflow not found");
           throw new Error("Workflow not found");
         }
       } else {
@@ -78,6 +81,7 @@ export const createRun = withServerPromise(
           apiUser.user_id != workflow_version_data.workflow.user_id &&
           workflow_version_data.workflow.org_id == null
         ) {
+          console.log("workflow not found");
           throw new Error("Workflow not found");
         }
       }
@@ -221,6 +225,7 @@ export const createRun = withServerPromise(
           status: "failed",
         })
         .where(eq(workflowRunsTable.id, workflow_run[0].id));
+      console.log("throw exception", e);
       throw e;
     }
 
@@ -233,10 +238,13 @@ export const createRun = withServerPromise(
       })
       .where(eq(workflowRunsTable.id, workflow_run[0].id));
 
-    return {
+    const response = {
       workflow_run_id: workflow_run[0].id,
       message: "Successful workflow run",
     };
+    console.log("workflow_run", response);
+
+    return response;
   }
 );
 
