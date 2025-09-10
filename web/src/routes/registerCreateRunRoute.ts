@@ -84,6 +84,9 @@ export const registerCreateRunRoute = (app: App) => {
 
       if (!deploymentData) throw new Error("Deployment not found");
 
+      return c.json({
+        run_id: "hi hello",
+      });
       //   const run_id = await createRun({
       //     origin,
       //     workflow_version_id: deploymentData.version,
