@@ -41,8 +41,13 @@ export function RunWorkflowInline({
 
   const runWorkflow = async () => {
     if (!user.isSignedIn) {
+      // 환경 변수에서 설정된 앱 URL을 우선 사용하고, 없으면 현재 URL 사용
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
+      const currentPath = `${window.location.pathname}${window.location.search}`;
+      const redirectUrl = baseUrl + currentPath;
+
       clerk.openSignIn({
-        redirectUrl: window.location.origin,
+        redirectUrl,
       });
       return;
     }

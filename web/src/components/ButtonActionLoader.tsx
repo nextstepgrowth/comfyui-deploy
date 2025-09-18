@@ -73,8 +73,13 @@ export function ButtonActionMenu(props: {
             key={action.title}
             onClick={async () => {
               if (!user.isSignedIn) {
+                const baseUrl =
+                  process.env.NEXT_PUBLIC_APP_URL || window.location.origin;
+                const currentPath = `${window.location.pathname}${window.location.search}`;
+                const redirectUrl = baseUrl + currentPath;
+
                 clerk.openSignIn({
-                  redirectUrl: window.location.origin,
+                  redirectUrl,
                 });
                 return;
               }
