@@ -42,7 +42,7 @@ export function RunWorkflowInline({
   const runWorkflow = async () => {
     if (!user.isSignedIn) {
       clerk.openSignIn({
-        redirectUrl: window.location.href,
+        redirectUrl: window.location.origin,
       });
       return;
     }
