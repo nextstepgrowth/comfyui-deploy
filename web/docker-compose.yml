@@ -25,6 +25,8 @@ services:
       POSTGRES_DB: verceldb
     ports:
       - "5480:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
   pg_proxy:
     image: ghcr.io/neondatabase/wsproxy:latest
     environment:
@@ -44,3 +46,6 @@ services:
     volumes:
       - ./aws:/etc/localstack/init/ready.d
       - ./aws:/app/web/aws
+
+volumes:
+  postgres_data:
