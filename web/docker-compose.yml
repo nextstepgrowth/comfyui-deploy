@@ -1,7 +1,22 @@
-# this file is a helper to run Cal.com locally
-# starts a postgres instance on port 5460 to use as a local db
+# this file is a helper to run the web application locally
+# starts a postgres instance, localstack for S3, and the Next.js web app
 version: "3.6"
 services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/verceldb
+      - NEXT_PUBLIC_S3_ENDPOINT=http://localhost:4566
+    depends_on:
+      - postgres
+      - localstack
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
   postgres:
     image: "postgres:15.2-alpine"
     environment:
@@ -20,12 +35,12 @@ services:
       - "5481:80"
     depends_on:
       - postgres
-  # localstack:
-  #   image: localstack/localstack:latest
-  #   environment:
-  #     SERVICES: s3
-  #   ports:
-  #     - 4566:4566
-  #   volumes:
-  #     - ./aws:/etc/localstack/init/ready.d
-  #     - ./aws:/app/web/aws
+  localstack:
+    image: localstack/localstack:latest
+    environment:
+      SERVICES: s3
+    ports:
+      - 4566:4566
+    volumes:
+      - ./aws:/etc/localstack/init/ready.d
+      - ./aws:/app/web/aws

@@ -18,6 +18,7 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  output: "standalone",
 };
 
 export default withSearch(withMDX(nextConfig));
