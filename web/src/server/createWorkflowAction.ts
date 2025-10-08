@@ -14,6 +14,7 @@ export async function createWorkflowAction(formData: FormData) {
 
   const workflowName = formData.get("workflow_name") as string;
   const workflowJsonStr = formData.get("workflow_json") as string;
+  const workflowApiJsonStr = formData.get("workflow_api_json") as string;
 
   if (!workflowName?.trim()) {
     throw new Error("워크플로우 이름을 입력해주세요.");
@@ -26,13 +27,22 @@ export async function createWorkflowAction(formData: FormData) {
     throw new Error("올바른 JSON 형식이 아닙니다.");
   }
 
+  let parsedWorkflowApi;
+  try {
+    parsedWorkflowApi = workflowApiJsonStr?.trim()
+      ? JSON.parse(workflowApiJsonStr)
+      : {};
+  } catch (error) {
+    throw new Error("올바른 JSON 형식이 아닙니다.");
+  }
+
   const result = await createNewWorkflow({
     user_id: userId,
     org_id: orgId,
     workflow_name: workflowName,
     workflowData: {
       workflow: parsedWorkflow,
-      workflow_api: {},
+      workflow_api: parsedWorkflowApi,
       snapshot: null,
     },
   });

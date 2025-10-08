@@ -25,6 +25,7 @@ export function CreateWorkflowButton() {
   const handleSubmit = async (formData: FormData) => {
     const workflowName = formData.get("workflow_name") as string;
     const workflowJson = formData.get("workflow_json") as string;
+    const workflowApiJson = formData.get("workflow_api_json") as string;
 
     if (!workflowName?.trim()) {
       toast.error("워크플로우 이름을 입력해주세요.");
@@ -36,7 +37,16 @@ export function CreateWorkflowButton() {
       try {
         JSON.parse(workflowJson);
       } catch (error) {
-        toast.error("올바른 JSON 형식이 아닙니다.");
+        toast.error("workflow json이 올바른 JSON 형식이 아닙니다.");
+        return;
+      }
+    }
+
+    if (workflowApiJson?.trim()) {
+      try {
+        JSON.parse(workflowApiJson);
+      } catch (error) {
+        toast.error("workflow api json이 올바른 JSON 형식이 아닙니다.");
         return;
       }
     }
@@ -87,11 +97,22 @@ export function CreateWorkflowButton() {
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="workflow-json">워크플로우 JSON (선택사항)</Label>
+              <Label htmlFor="workflow-json">워크플로우 JSON</Label>
               <Textarea
                 id="workflow-json"
                 name="workflow_json"
                 placeholder='{"nodes": [], "links": [], ...}'
+                rows={6}
+                disabled={isLoading}
+                className="font-mono text-sm"
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="workflow-api-json">워크플로우 API JSON</Label>
+              <Textarea
+                id="workflow-api-json"
+                name="workflow_api_json"
+                placeholder=""
                 rows={6}
                 disabled={isLoading}
                 className="font-mono text-sm"
