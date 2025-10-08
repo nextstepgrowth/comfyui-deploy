@@ -83,7 +83,7 @@ export const registerCreateRunRoute = (app: App) => {
 
       const run_id = await createRun({
         origin,
-        workflow_version_id: deploymentData.version,
+        workflow_version_id: deploymentData.version.id,
         machine_id: deploymentData.machine,
         inputs,
         runOrigin: "api",
