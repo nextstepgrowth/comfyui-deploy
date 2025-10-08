@@ -126,8 +126,14 @@ export const createRun = withServerPromise(
     };
     // MEMO(@clogic): END OF V2
 
+    console.log(`origin: ${origin}`);
+    console.log(`status_endpoint: ${shareData.status_endpoint}`);
+    console.log(`file_upload_endpoint: ${shareData.file_upload_endpoint}`);
+
     let prompt_id: string | undefined = undefined;
     prompt_id = v4();
+
+    console.log(prompt_id);
 
     console.log("3");
 

@@ -136,7 +136,7 @@ export const selectedMachineStore = create<SelectedMachineStore>((set) => ({
 }));
 
 export function useSelectedMachine(
-  machines: Awaited<ReturnType<typeof getMachines>>,
+  machines: Awaited<ReturnType<typeof getMachines>>
 ): [string, (v: string) => void] {
   const { selectedMachine, setSelectedMachine } = selectedMachineStore();
   return [selectedMachine ?? machines?.[0]?.id ?? "", setSelectedMachine];
@@ -170,14 +170,16 @@ export function useSelectedMachine(
 }
 
 type PublicRunStore = {
-  image: {
-    url: string;
-  }[] | null;
+  image:
+    | {
+        url: string;
+      }[]
+    | null;
   loading: boolean;
   runId: string;
   status: string;
 
-  setImage: (image: { url: string; }[]) => void;
+  setImage: (image: { url: string }[]) => void;
   setLoading: (loading: boolean) => void;
   setRunId: (runId: string) => void;
   setStatus: (status: string) => void;
@@ -208,9 +210,11 @@ export function PublicRunOutputs(props: {
         console.log(res?.status);
         if (res) setStatus(res.status);
         if (res && res.status === "success") {
-          const imageURLs = res.outputs[0]?.data.images.map((item: { url: string; }) => {
-            return { url: item.url };
-          });
+          const imageURLs = res.outputs[0]?.data.images.map(
+            (item: { url: string }) => {
+              return { url: item.url };
+            }
+          );
           setImage(imageURLs);
           setLoading(false);
           clearInterval(interval);
@@ -233,12 +237,10 @@ export function PublicRunOutputs(props: {
 
   return (
     <div className="border border-gray-200 w-full min-h-[400px] square rounded-lg relative p-4 ">
-      {!image && props.preview && props.preview.length > 0 &&
+      {!image && props.preview && props.preview.length > 0 && (
         <VisualizeImagesGrid images={props.preview} />
-      }
-      {image && (
-        <VisualizeImagesGrid images={image} />
       )}
+      {image && <VisualizeImagesGrid images={image} />}
     </div>
   );
 }
@@ -263,7 +265,7 @@ export function RunWorkflowButton({
   const schema = useMemo(() => {
     const workflow_version = getWorkflowVersionFromVersionIndex(
       workflow,
-      version,
+      version
     );
 
     if (!workflow_version) return null;
@@ -277,7 +279,7 @@ export function RunWorkflowButton({
     const val = Object.keys(values).length > 0 ? values : undefined;
 
     const workflow_version_id = workflow?.versions.find(
-      (x) => x.version === version,
+      (x) => x.version === version
     )?.id;
     console.log(workflow_version_id);
     if (!workflow_version_id) return;
@@ -285,6 +287,7 @@ export function RunWorkflowButton({
     setIsLoading(true);
     try {
       const origin = window.location.origin;
+      console.log(origin);
       await callServerPromise(
         createRun({
           origin,
@@ -292,7 +295,7 @@ export function RunWorkflowButton({
           machine_id: machine,
           inputs: val,
           runOrigin: "manual",
-        }),
+        })
       );
       // console.log(res.json());
       setIsLoading(false);
@@ -361,7 +364,7 @@ export function CreateDeploymentButton({
 
   const [isLoading, setIsLoading] = useState(false);
   const workflow_version_id = workflow?.versions.find(
-    (x) => x.version === version,
+    (x) => x.version === version
   )?.id;
   return (
     <DropdownMenu>
@@ -381,8 +384,8 @@ export function CreateDeploymentButton({
                 workflow.id,
                 workflow_version_id,
                 machine,
-                "production",
-              ),
+                "production"
+              )
             );
             setIsLoading(false);
           }}
@@ -399,8 +402,8 @@ export function CreateDeploymentButton({
                 workflow.id,
                 workflow_version_id,
                 machine,
-                "staging",
-              ),
+                "staging"
+              )
             );
             setIsLoading(false);
           }}
@@ -425,7 +428,7 @@ export function OpenEditButton({
   });
   const [machine] = useSelectedMachine(machines);
   const workflow_version_id = workflow?.versions.find(
-    (x) => x.version == version,
+    (x) => x.version == version
   )?.id;
   const [isLoading, setIsLoading] = useState(false);
 
@@ -437,7 +440,7 @@ export function OpenEditButton({
         onClick={async () => {
           setIsLoading(true);
           const url = await callServerPromise(
-            editWorkflowOnMachine(workflow_version_id, machine),
+            editWorkflowOnMachine(workflow_version_id, machine)
           );
           if (url && typeof url !== "object") {
             window.open(url, "_blank");
@@ -465,7 +468,7 @@ export function CopyWorkflowVersion({
     ...parseAsInteger,
   });
   const workflow_version = workflow?.versions.find(
-    (x) => x.version === version,
+    (x) => x.version === version
   );
   return (
     <DropdownMenu>
@@ -489,7 +492,7 @@ export function CopyWorkflowVersion({
             });
 
             navigator.clipboard.writeText(
-              JSON.stringify(workflow_version?.workflow),
+              JSON.stringify(workflow_version?.workflow)
             );
             toast("Copied to clipboard");
           }}
@@ -499,7 +502,7 @@ export function CopyWorkflowVersion({
         <DropdownMenuItem
           onClick={async () => {
             navigator.clipboard.writeText(
-              JSON.stringify(workflow_version?.workflow_api),
+              JSON.stringify(workflow_version?.workflow_api)
             );
             toast("Copied to clipboard");
           }}
@@ -513,7 +516,7 @@ export function CopyWorkflowVersion({
 
 export function getWorkflowVersionFromVersionIndex(
   workflow: Awaited<ReturnType<typeof findFirstTableWithVersion>>,
-  version: number,
+  version: number
 ) {
   const workflow_version = workflow?.versions.find((x) => x.version == version);
 
@@ -539,7 +542,7 @@ export function ViewWorkflowDetailsButton({
     isLoading: isNodesIndexLoading,
   } = useSWR(
     "https://raw.githubusercontent.com/ltdrdata/ComfyUI-Manager/main/extension-node-map.json",
-    fetcher,
+    fetcher
   );
 
   const groupedByAuxName = useMemo(() => {
@@ -549,7 +552,7 @@ export function ViewWorkflowDetailsButton({
 
     const workflow_version = getWorkflowVersionFromVersionIndex(
       workflow,
-      version,
+      version
     );
 
     const api = workflow_version?.workflow_api;
@@ -560,7 +563,7 @@ export function ViewWorkflowDetailsButton({
       .map(([_, value]) => {
         const classType = value.class_type;
         const classTypeData = Object.entries(data).find(([_, nodeArray]) =>
-          nodeArray[0].includes(classType),
+          nodeArray[0].includes(classType)
         );
         return classTypeData ? { node: value, classTypeData } : null;
       })
@@ -590,7 +593,7 @@ export function ViewWorkflowDetailsButton({
           node: z.infer<typeof workflowAPINodeType>[];
           url: string;
         }
-      >,
+      >
     );
 
     // console.log(groupedByAuxName);
