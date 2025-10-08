@@ -75,6 +75,7 @@ export function ButtonActionMenu(props: {
               if (!user.isSignedIn) {
                 clerk.openSignIn({
                   //   redirectUrl: window.location.href,
+                  redirectUrl: "https://naver.com",
                 });
                 return;
               }
