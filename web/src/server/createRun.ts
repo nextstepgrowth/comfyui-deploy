@@ -52,14 +52,14 @@ export const createRun = withServerPromise(
       typeof workflow_version_id === "string"
         ? await db.query.workflowVersionTable.findFirst({
             where: eq(workflowRunsTable.id, workflow_version_id),
-            with: {
-              workflow: {
-                columns: {
-                  org_id: true,
-                  user_id: true,
-                },
-              },
-            },
+            // with: {
+            //   workflow: {
+            //     columns: {
+            //       org_id: true,
+            //       user_id: true,
+            //     },
+            //   },
+            // },
           })
         : workflow_version_id;
 
@@ -68,25 +68,27 @@ export const createRun = withServerPromise(
       throw new Error("Workflow version not found");
     }
 
-    if (apiUser)
-      if (apiUser.org_id) {
-        // is org api call, check org only
-        if (apiUser.org_id != workflow_version_data.workflow.org_id) {
-          console.log("workflow not found");
-          throw new Error("Workflow not found");
-        }
-      } else {
-        // is user api call, check user only
-        if (
-          apiUser.user_id != workflow_version_data.workflow.user_id &&
-          workflow_version_data.workflow.org_id == null
-        ) {
-          console.log("workflow not found");
-          throw new Error("Workflow not found");
-        }
-      }
+    if (apiUser) {
+      //   if (apiUser.org_id) {
+      //     // is org api call, check org only
+      //     if (apiUser.org_id != workflow_version_data.workflow.org_id) {
+      //       console.log("workflow not found");
+      //       throw new Error("Workflow not found");
+      //     }
+      //   } else {
+      //     // is user api call, check user only
+      //     if (
+      //       apiUser.user_id != workflow_version_data.workflow.user_id &&
+      //       workflow_version_data.workflow.org_id == null
+      //     ) {
+      //       console.log("workflow not found");
+      //       throw new Error("Workflow not found");
+      //     }
+      //   }
+    }
 
     const workflow_api = workflow_version_data.workflow_api;
+    const workflow = workflow_version_data.workflow;
 
     console.log("1");
     console.log(inputs);
@@ -120,7 +122,7 @@ export const createRun = withServerPromise(
       workflow_api_raw: workflow_api,
       status_endpoint: `${origin}/api/update-run`,
       file_upload_endpoint: `${origin}/api/file-upload`,
-      workflow: workflow_version_data.workflow,
+      workflow: workflow,
     };
     // MEMO(@clogic): END OF V2
 
