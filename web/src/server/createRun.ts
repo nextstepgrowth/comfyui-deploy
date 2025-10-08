@@ -230,7 +230,7 @@ export const createRun = withServerPromise(
 
           if (!_result.ok) {
             console.log("result", JSON.stringify(_result));
-            let message = `Error creating run, ${_result.statusText}`;
+            let message = `[classic] Error creating run, ${_result.statusText}`;
             try {
               const result = await ComfyAPI_Run.parseAsync(
                 await _result.json()
