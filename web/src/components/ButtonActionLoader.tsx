@@ -74,7 +74,7 @@ export function ButtonActionMenu(props: {
             onClick={async () => {
               if (!user.isSignedIn) {
                 clerk.openSignIn({
-                  redirectUrl: window.location.href,
+                  //   redirectUrl: window.location.href,
                 });
                 return;
               }
